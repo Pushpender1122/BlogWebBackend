@@ -66,8 +66,15 @@ const registerUser = async (req, res) => {
     password: hashedPass,
     email: user.email,
   };
+  try {
+    var createdUser = await User.create(userObject);
 
-  const createdUser = await User.create(userObject);
+  } catch (error) {
+    return res.status(403).json({
+      errors: {
+        body: "Email already exists"
+      }})
+  }
 
   //save to the database
   //create model or schema
